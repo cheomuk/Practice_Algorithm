@@ -1,8 +1,8 @@
-package Lv1;
+package Programmers.Lv1;
 
 import java.util.*;
 
-public class PickTwoAndAdd {
+public class PickTwoAndAdd {    // 두 개 뽑아서 더하기 - 월간 코드 챌린지 시즌1
 
     public class Solution {
         public int[] solution(int[] numbers) {

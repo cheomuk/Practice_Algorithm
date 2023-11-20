@@ -1,6 +1,6 @@
-package Lv1;
+package Programmers.Lv1;
 
-public class FirstSecretMap {
+public class FirstSecretMap {   // [1차] 비밀지도 - 2018 KAKAO BLIND RECRUITMENT
     int[] arr = new int[16];
 
     public String[] solution(int n, int[] arr1, int[] arr2) {

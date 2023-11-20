@@ -1,8 +1,8 @@
-package Lv1;
+package Programmers.Lv1;
 
 import java.util.*;
 
-public class PracticeTest {
+public class PracticeTest {     // 모의고사 - 완전탐색
     static int[] m1RepeatValues = {1, 2, 3, 4, 5};
     static int[] m2RepeatValues = {2, 1, 2, 3, 2, 4, 2, 5};
     static int[] m3RepeatValues = {3, 3, 1, 1, 2, 2, 4, 4, 5, 5};
