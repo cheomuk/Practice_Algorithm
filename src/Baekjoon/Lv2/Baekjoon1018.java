@@ -3,42 +3,46 @@ package Baekjoon.Lv2;
 import java.io.*;
 
 public class Baekjoon1018 {
-    public static void main(String[] args) throws IOException { // 미완성
+    public static void main(String[] args) throws IOException { // 다시 한번 풀어봐야 할 문제
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
         String[] strArray = br.readLine().split(" ");
-        Boolean[][] arr = new Boolean[strArray[0].length()][strArray[1].length()];
-        Boolean[] arr1 = new Boolean[8];
-        int count = 0;
+        int row = Integer.parseInt(strArray[0]);
+        int col = Integer.parseInt(strArray[1]);
+        String[] strArr = new String[row];
 
-        for (int i = 0; i < 8; i++) {
-            String[] strArr = br.readLine().split("");
-            for (int j = 0; j < 8; j++) {
-                if ()
-            }
+        for (int i = 0; i < row; i++) {
+            strArr[i] = br.readLine();
         }
 
-        for (int i = 0; i < strArray[0].length(); i++) {
-            for (int j = 1; j <= strArray[1].length(); j++) {
-                if (i == 0) {
-                    if (arr[i][j].equals(arr[i][j - 1])) {
-                        arr[i][j] = "B";
-                        count++;
-                    }
-                } else if (i <= strArray[0].length() - 1) {
-                    if (arr[i][j].equals(arr[i][j - 1]) || arr[i][j].equals(arr[i + 1][j])) {
-                        arr[i][j] = "B";
-                        count++;
-                    }
-                } else {
-                    if (arr[i][j].equals(arr[i][j - 1])) {
-                        arr[i][j] = "B";
-                        count++;
-                    }
+        int sol = Integer.MAX_VALUE;
+        for (int i = 0; i < row - 7; i++) {
+            for (int j = 0; j < col - 7; j++) {
+                int count = solution(i, j, strArr);
+                if (sol > count) {
+                    sol = count;
                 }
             }
         }
+
+        System.out.println(sol);
+        br.close();
+    }
+
+    public static int solution(int row, int col, String[] strArr) {
+        String[] board = {"BWBWBWBW", "WBWBWBWB"};
+        int count = 0;
+        for (int i = 0; i < 8; i++) {
+            int startRow = row + i;
+            for (int j = 0; j < 8; j++) {
+                int startCol = col + j;
+                if (strArr[startRow].charAt(startCol) != board[startRow % 2].charAt(j)) {
+                    count++;
+                }
+            }
+        }
+
+        return Math.min(count, 64 - count);
     }
 }
