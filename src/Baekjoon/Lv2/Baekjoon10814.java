@@ -32,7 +32,6 @@ public class Baekjoon10814 {
 }
 
 class HashSort implements Comparable<HashSort> {
-
     int age;
     String name;
     int index;
