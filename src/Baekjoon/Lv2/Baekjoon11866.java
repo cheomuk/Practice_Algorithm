@@ -18,17 +18,15 @@ public class Baekjoon11866 {
         int N = Integer.parseInt(st.nextToken());
         int K = Integer.parseInt(st.nextToken());
 
-
-        for(int i = 1; i <= N; i++) {
+        for (int i = 1; i <= N; i++) {
             queue.add(i);
         }
 
         StringBuilder sb = new StringBuilder();
         sb.append('<');
 
-        while(queue.size() > 1) {
-
-            for(int i = 0; i < K - 1; i++) {
+        while (queue.size() > 1) {
+            for (int i = 0; i < K - 1; i++) {
                 queue.offer(queue.poll());
             }
 
