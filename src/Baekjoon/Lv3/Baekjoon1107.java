@@ -7,7 +7,7 @@ import java.util.StringTokenizer;
 
 public class Baekjoon1107 {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException { // 브루트 포스 문제. 다시 풀어볼 것!!
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer stk;
         int target = Integer.parseInt(br.readLine());
