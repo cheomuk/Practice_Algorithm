@@ -3,11 +3,13 @@ package Baekjoon.Lv3;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
 
-public class Baekjoon1697 { // 반례 찾는 중
+public class Baekjoon1697 {
 
-    static int[] dp;
-    static int count = 0;
+    static int[] visited;
+    static int start, end;
     static StringBuilder sb = new StringBuilder();
 
     public static void main(String[] args) throws IOException {
@@ -15,42 +17,48 @@ public class Baekjoon1697 { // 반례 찾는 중
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String[] arr = br.readLine().split(" ");
 
-        int start = Integer.parseInt(arr[0]);
-        int end = Integer.parseInt(arr[1]);
+        start = Integer.parseInt(arr[0]);
+        end = Integer.parseInt(arr[1]);
 
-        dp = new int[start + end + 2];
-        dp[start] = 0;
-        dp[end] = end;
+        visited = new int[100001];
 
-        find(start, end);
+        if (start == end) {
+            System.out.println(0);
+        } else {
+            bfs(start);
+        }
 
-        System.out.println(sb.append(count));
         br.close();
     }
 
-    private static void find(int start, int end) {
+    private static void bfs(int start) {
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(start);
+        visited[start] = 1;
 
-        if (dp[end] - 1 == start || dp[end] + 1 == start) {
-            count++;
-            return;
-        } else if (dp[start] == start) {
-            return;
-        } else if (dp[end] % 2 == 0 && dp[end] > start) {
-            dp[end / 2] = dp[end] / 2;
-            count++;
-            find(start, end / 2);
-        } else if (dp[end] % 2 == 0 && dp[end] * 2 < start) {
-            dp[end * 2] = dp[end] * 2;
-            count++;
-            find(start, end * 2);
-        } else if (dp[end] < start) {
-            dp[end + 1] = dp[end] + 1;
-            count++;
-            find(start, end + 1);
-        } else {
-            dp[end - 1] = dp[end] - 1;
-            count++;
-            find(start, end - 1);
+        while (!queue.isEmpty()) {
+            int node = queue.poll();
+
+            for (int i = 0; i < 3; i++) {
+                int next;
+                if (i == 0) {
+                    next = node + 1;
+                } else if (i == 1) {
+                    next = node - 1;
+                } else {
+                    next = node * 2;
+                }
+
+                if (next == end) {
+                    System.out.println(visited[node]);
+                    return;
+                }
+
+                if (next >= 0 && next < visited.length && visited[next] == 0) {
+                    queue.add(next);
+                    visited[next] = visited[node] + 1;
+                }
+            }
         }
     }
 }
