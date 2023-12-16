@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 
 public class Baekjoon5525 {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException {     // DP로도 한 번 풀어보기
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int N = Integer.parseInt(br.readLine());
