@@ -1,78 +1,52 @@
 package Baekjoon.Lv3;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.io.*;
+import java.util.StringTokenizer;
 
-public class Baekjoon11403 {
+public class Baekjoon11403 {    // 플로이드 와샬 기초 문제 (다시 풀어볼 것!!)
 
-    static ArrayList<Integer>[] graph;
-    static int[][] visited;
-    static StringBuilder sb = new StringBuilder();
-
-    public static void main(String[] args) throws IOException { // 미완성
+    public static void main(String[] args) throws NumberFormatException, IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringBuilder sb = new StringBuilder();
 
-        int num = Integer.parseInt(br.readLine());
-        graph = new ArrayList[num];
-        visited = new int[num][num];
+        StringTokenizer st;
 
-        for (int i = 0; i < num; i++) {
-            graph[i] = new ArrayList<>();
-        }
+        int N = Integer.parseInt(br.readLine());
+        int[][] arr = new int[N][N];
 
-        for (int i = 0; i < num; i++) {
-            String[] arr = br.readLine().split(" ");
-            for (int j = 0; j < arr.length; j++) {
-                if (Integer.parseInt(arr[j]) == 1) {
-                    graph[i].add(j);
-                    graph[j].add(i);
-                }
-
-                visited[i][j] = -1;
+        for (int i = 0; i < N; i++) {
+            st = new StringTokenizer(br.readLine());
+            for (int j = 0; j < N; j++) {
+                arr[i][j] = Integer.parseInt(st.nextToken());
             }
         }
 
-        for (int i = 0; i < num; i++) {
-            for (int j = 0; j < num; j++) {
-                if (graph[i].get(j) == 1) {
-                    bfs(j, i);
+        // i에서 j까지 갈 수 있는가?
+        // i에서 k로 가고, k에서 j로 갈 수 있는가?
+        // 위에 2개의 질문은 동일함.
+        for (int k = 0; k < N; k++) {
+            for (int i = 0; i < N; i++) {
+                for (int j = 0; j < N; j++) {
+                    // 단순히 갈 수 있는 경로가 있는지만 체크함.
+                    if (arr[i][k] == 1 && arr[k][j] == 1) {
+                        arr[i][j] = 1;
+                    }
                 }
             }
         }
 
-        find(num);
-
-        System.out.println(sb);
-        br.close();
-    }
-
-    private static void bfs(int x, int y) {
-        Queue<Integer> queue = new LinkedList<>();
-        queue.add();
-        visited[y][x] = 0;
-
-        while (!queue.isEmpty()) {
-            int node = queue.poll();
-
-
-        }
-    }
-
-    private static void find(int num) {
-        for (int i = 0; i < num; i++) {
-            for (int j = 0; j < num; j++) {
-                if (visited[i][j] == 1) {
-                    sb.append(1).append(" ");
-                } else {
-                    sb.append(0).append(" ");
-                }
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                sb.append(arr[i][j] + " ");
             }
 
             sb.append("\n");
         }
+
+        bw.write(sb.toString());
+        bw.flush();
+        bw.close();
+        br.close();
     }
 }
