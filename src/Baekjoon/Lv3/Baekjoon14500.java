@@ -8,7 +8,6 @@ public class Baekjoon14500 {
 
     static int[][] graph;
     static boolean[][] visited;
-    static int count = 0;
     static int N, M;
     static int max = Integer.MIN_VALUE;
 
@@ -58,7 +57,7 @@ public class Baekjoon14500 {
             int xn = dx[i] + x;
             int yn = dy[i] + y;
 
-            if(xn < 0 || xn >= N || yn < 0 || yn >= M) {
+            if(xn < 0 || xn >= M || yn < 0 || yn >= N) {
                 continue;
             }
 
