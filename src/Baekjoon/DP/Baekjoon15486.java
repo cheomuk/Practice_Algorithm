@@ -3,7 +3,6 @@ package Baekjoon.DP;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class Baekjoon15486 {
@@ -18,7 +17,7 @@ public class Baekjoon15486 {
 
         int num = Integer.parseInt(br.readLine());
 
-        dp = new int[num + 1];
+        dp = new int[num + 2];
         map = new HashMap<>();
 
         for (int i = 1; i <= num; i++) {
@@ -26,30 +25,22 @@ public class Baekjoon15486 {
             map.put(i, new int[] {Integer.parseInt(arr[0]), Integer.parseInt(arr[1])});
         }
 
-        find(num);
+        for (int i = 1; i <= num; i++) {
+            int time = map.get(i)[0];
+            int value = map.get(i)[1];
+
+            if (i + time <= num + 1) {
+                dp[i + time] = Math.max(dp[i + time], dp[i] + value);
+                max = Math.max(max, dp[i + time]);
+            }
+
+            dp[i + 1] = Math.max(dp[i + 1], dp[i]);
+            max = Math.max(max, dp[i + 1]);
+        }
 
         sb.append(max);
 
         System.out.println(sb);
         br.close();
-    }
-
-    private static int find(int end) {
-        int time = 0;
-        for (int i = 1; i <= end; i++) {
-            if (time == 0 && i + map.get(i)[0] <= end + 1) {
-                dp[i] = dp[i - 1] + map.get(i)[1];
-                time += map.get(i)[0];
-            } else {
-                dp[i] = dp[i - 1];
-            }
-
-            time--;
-        }
-
-        Arrays.sort(dp);
-        max = Math.max(dp[end], max);
-
-        return max;
     }
 }
