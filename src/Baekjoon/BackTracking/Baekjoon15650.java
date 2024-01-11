@@ -2,14 +2,12 @@ package Baekjoon.BackTracking;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.TreeSet;
 
 public class Baekjoon15650 {
 
     static int N, M;
     static StringBuilder sb = new StringBuilder();
-    static boolean[] visited;
-    static TreeSet<Integer> treeSet;
+    static int[] graph;
 
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -19,19 +17,18 @@ public class Baekjoon15650 {
         N = Integer.parseInt(arr[0]);
         M = Integer.parseInt(arr[1]);
 
-        visited = new boolean[N];
-        treeSet = new TreeSet<>();
+        graph = new int[M];
 
-        dfs(0);
+        dfs(1, 0);
 
         System.out.println(sb);
         br.close();
     }
 
-    private static void dfs(int depth) {
+    private static void dfs(int start, int depth) {
 
         if (depth == M) {
-            for (int val : treeSet) {
+            for (int val : graph) {
                 sb.append(val).append(' ');
             }
 
@@ -39,17 +36,9 @@ public class Baekjoon15650 {
             return;
         }
 
-        for (int i = 0; i < N; i++) {
-            if (!visited[i]) {
-                visited[i] = true;
-                if (treeSet.contains(i)) {
-                    treeSet.pollFirst();
-                }
-
-                treeSet.add(i + 1);
-                dfs(depth + 1);
-                visited[i] = false;
-            }
+        for (int i = start; i <= N; i++) {
+            graph[depth] = i;
+            dfs(i + 1, depth + 1);
         }
     }
 }
