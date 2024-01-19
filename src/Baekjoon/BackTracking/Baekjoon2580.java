@@ -2,27 +2,33 @@ package Baekjoon.BackTracking;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Stack;
 
-public class Baekjoon2580 { // 미완성 코드
+public class Baekjoon2580 {
 
     static StringBuilder sb = new StringBuilder();
     static int[][] graph;
+    static Stack<int[]> stack;
+    static boolean isSolved = false;
 
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         graph = new int[9][9];
+        stack = new Stack<>();
 
         for (int i = 0; i < 9; i++) {
             String[] arr = br.readLine().split(" ");
             for (int j = 0; j < 9; j++) {
                 graph[i][j] = Integer.parseInt(arr[j]);
+
+                if (graph[i][j] == 0) {
+                    stack.push(new int[]{i, j});
+                }
             }
         }
 
-        dfs(0);
+        dfs();
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -36,39 +42,49 @@ public class Baekjoon2580 { // 미완성 코드
         br.close();
     }
 
-    private static void dfs(int depth) {
+    private static void dfs() {
 
-        if (depth == 9) {
+        if (stack.empty()) {
+            isSolved = true;
             return;
         }
 
-        for (int i = 0; i < 9; i++) {
-            if (graph[depth][i] == 0) {
-                fill(i, depth);
+        int[] node = stack.pop();
+        int x = node[1];
+        int y = node[0];
+
+        for (int i = 1; i <= 9; i++) {
+            if (isValid(x, y, i)) {
+                graph[y][x] = i;
+                dfs();
+                if (isSolved) {
+                    return;
+                }
+                graph[y][x] = 0;
             }
         }
 
-        dfs(depth + 1);
+        stack.push(node);
     }
 
-    private static void fill(int x, int y) {
+    private static boolean isValid(int x, int y, int value) {
         int dx = x / 3;
         int dy = y / 3;
 
-        Set<Integer> set = new HashSet<>();
-
         for (int i = 0; i < 9; i++) {
-            set.add(i + 1);
+            if (graph[y][i] == value) {
+                return false;
+            }
+
+            if (graph[i][x] == value) {
+                return false;
+            }
+
+            if (graph[(3 * dy) + (i / 3)][(3 * dx) + (i % 3)] == value) {
+                return false;
+            }
         }
 
-        for (int i = 0; i < 9; i++) {
-            set.remove(graph[y][i]);
-            set.remove(graph[i][x]);
-            set.remove(graph[(3 * dy) + (i % 3)][(3 * dx) + (i % 3)]);
-        }
-
-        if (!set.isEmpty()) {
-            graph[y][x] = set.iterator().next();
-        }
+        return true;
     }
 }
