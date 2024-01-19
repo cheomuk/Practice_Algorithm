@@ -8,14 +8,13 @@ public class Baekjoon2580 {
 
     static StringBuilder sb = new StringBuilder();
     static int[][] graph;
-    static Stack<int[]> stack;
+    static Stack<int[]> stack = new Stack<>();
     static boolean isSolved = false;
 
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         graph = new int[9][9];
-        stack = new Stack<>();
 
         for (int i = 0; i < 9; i++) {
             String[] arr = br.readLine().split(" ");
