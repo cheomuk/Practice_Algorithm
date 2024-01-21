@@ -2,52 +2,94 @@ package Baekjoon.Dijkstra;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class Baekjoon1446 {
 
-    static StringBuilder sb = new StringBuilder();
     static int N, M;
-    static int[][] graph;
-    static int[][] dp;
+    static ArrayList<Sort> dist = new ArrayList<>();
+    static int[] dp;
 
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
 
         String[] arr = br.readLine().split(" ");
 
         N = Integer.parseInt(arr[0]);
         M = Integer.parseInt(arr[1]);
 
-        graph = new int[N][3];
-        dp = new int[N][3];
+        dp = new int[M + 1];
+        Arrays.fill(dp, Integer.MAX_VALUE);
 
         for (int i = 0; i < N; i++) {
             String[] arr2 = br.readLine().split(" ");
-            for (int j = 0; j < arr2.length; j++) {
-                graph[i][j] = Integer.parseInt(arr2[j]);
-            }
+
+            int x = Integer.parseInt(arr2[0]);
+            int y = Integer.parseInt(arr2[1]);
+            int range = Integer.parseInt(arr2[2]);
+
+            dist.add(new Sort(x, y, range));
         }
 
-        bfs(graph[0][0]);
+        Collections.sort(dist);
+
+        bfs();
+
+        sb.append(dp[M]);
 
         System.out.println(sb);
         br.close();
     }
 
-    private static void bfs(int start) {
-        PriorityQueue<Integer> pq = new PriorityQueue<>();
-        pq.add(start);
+    private static void bfs() {
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(0);
 
-        while (!pq.isEmpty()) {
-            int node = pq.poll();
+        dp[0] = 0;
 
-            for (int i = 0; i < graph.length; i++) {
-                if (node < M && graph[i][0] == node) {
-                    pq.add(graph[i][1]);
-                    dp[i][2] = Math.min(dp[i - 1][2], graph[i][2]);
+        while (!queue.isEmpty()) {
+            int x = queue.poll();
+
+            for (Sort sort : dist) {
+                if (sort.x == x) {
+                    int y = sort.y;
+                    int range = sort.range;
+
+                    if (y <= M && dp[y] > dp[x] + range) {
+                        dp[y] = dp[x] + range;
+                        queue.add(y);
+                    }
                 }
             }
+
+            if (x + 1 <= M && dp[x + 1] > dp[x] + 1) {
+                dp[x + 1] = dp[x] + 1;
+                queue.add(x + 1);
+            }
+        }
+    }
+}
+
+class Sort implements Comparable<Sort> {
+    int x;
+    int y;
+    int range;
+
+    public Sort(int num, int num2, int num3) {
+        x = num;
+        y = num2;
+        range = num3;
+    }
+
+    @Override
+    public int compareTo(Sort sort) {
+        if (x < sort.x) {
+            return -1;
+        } else if (x == sort.x) {
+            return y < sort.y ? -1 : 1;
+        } else {
+            return 1;
         }
     }
 }
