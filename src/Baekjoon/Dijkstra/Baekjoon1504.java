@@ -10,7 +10,7 @@ public class Baekjoon1504 {
 
     static StringBuilder sb = new StringBuilder();
     static ArrayList<ArrayList<Node>> graph;
-    static int[] dp;
+    private static int INF = 200000000;
 
     static class Node implements Comparable<Node> {
         int value;
@@ -35,7 +35,6 @@ public class Baekjoon1504 {
         int M = Integer.parseInt(arr[1]);
 
         graph = new ArrayList<>();
-        dp = new int[N + 1];
 
         for (int i = 0; i <= N; i++) {
             graph.add(new ArrayList<>());
@@ -52,22 +51,40 @@ public class Baekjoon1504 {
             graph.get(end).add(new Node(start, range));
         }
 
-        Arrays.fill(dp, Integer.MAX_VALUE);
         String[] quests = br.readLine().split(" ");
+        int n1 = Integer.parseInt(quests[0]);
+        int n2 = Integer.parseInt(quests[1]);
 
-        bfs(1, Integer.parseInt(quests[0]), Integer.parseInt(quests[1]));
+        // 1번 정점에서 v1 정점까지의 최단 거리
+        int[] dist1 = bfs(1, N);
 
-        sb.append(dp[N]);
+        // v1 정점에서 v2 정점까지의 최단 거리
+        int[] dist2 = bfs(n1, N);
+
+        // v2 정점에서 N번 정점까지의 최단 거리
+        int[] dist3 = bfs(n2, N);
+
+        // 1번 정점을 거쳐 v1 정점과 v2 정점을 반드시 지나는 최단 경로
+        long result1 = dist1[n1] + dist2[n2] + dist3[N];
+
+        // 1번 정점을 거쳐 v2 정점과 v1 정점을 반드시 지나는 최단 경로
+        long result2 = dist1[n2] + dist3[n1] + dist2[N];
+
+        // 최소 경로 저장
+        long answer = (result1 >= INF && result2 >= INF) ? -1 : Math.min(result1, result2);
+
+        sb.append(answer).append("\n");
 
         System.out.println(sb);
         br.close();
     }
 
-    private static void bfs(int start, int questStart, int questEnd) {
+    private static int[] bfs(int start, int end) {
         PriorityQueue<Node> queue = new PriorityQueue<>();
         queue.add(new Node(start, 0));
 
-        boolean checked = false;
+        int[] dp = new int[end + 1];
+        Arrays.fill(dp, INF);
 
         dp[start] = 0;
 
@@ -79,24 +96,13 @@ public class Baekjoon1504 {
             }
 
             for (Node next : graph.get(node.value)) {
-                if (!checked && next.value <= questStart) {
-                    if (node.value == questStart && next.value == questEnd) {
-                        dp[next.value] = dp[node.value] + next.weight;
-                        queue.add(new Node(next.value, dp[next.value]));
-                        checked = true;
-                    }
-
-                    if (dp[next.value] > dp[node.value] + next.weight) {
-                        dp[next.value] = dp[node.value] + next.weight;
-                        queue.add(new Node(next.value, dp[next.value]));
-                    }
-                }
-
-                if (checked && dp[next.value] > dp[node.value] + next.weight) {
+                if (dp[next.value] > dp[node.value] + next.weight) {
                     dp[next.value] = dp[node.value] + next.weight;
                     queue.add(new Node(next.value, dp[next.value]));
                 }
             }
         }
+
+        return dp;
     }
 }
