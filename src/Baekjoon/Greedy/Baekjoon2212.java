@@ -3,11 +3,12 @@ package Baekjoon.Greedy;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class Baekjoon2212 {
 
     static int[] sensors;
-    static int[] distances;
+    static Integer[] distances;
     static int N, K;
 
     public static void main(String[] args) throws Exception {
@@ -17,8 +18,13 @@ public class Baekjoon2212 {
         N = Integer.parseInt(br.readLine());
         K = Integer.parseInt(br.readLine());
 
+        if (K >= N) {
+            System.out.println(0);
+            return;
+        }
+
         sensors = new int[N];
-        distances = new int[N];
+        distances = new Integer[N - 1];
 
         String[] arr = br.readLine().split(" ");
 
@@ -28,13 +34,26 @@ public class Baekjoon2212 {
 
         Arrays.sort(sensors);
 
-        sb.append(find(0));
+        sb.append(find());
 
         System.out.println(sb);
         br.close();
     }
 
-    private static int find(int count) {
+    private static int find() {
 
+        int count = 0;
+
+        for (int i = 0; i < N - 1; i++) {
+            distances[i] = sensors[i + 1] - sensors[i];
+        }
+
+        Arrays.sort(distances, Collections.reverseOrder());
+
+        for (int i = K - 1; i < N - 1; i++) {
+            count += distances[i];
+        }
+
+        return count;
     }
 }
