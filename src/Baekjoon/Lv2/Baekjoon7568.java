@@ -14,7 +14,7 @@ public class Baekjoon7568 {
 
         int[][] arr = new int[N][2];
 
-        for(int i = 0; i < N; i++) {
+        for (int i = 0; i < N; i++) {
             String[] input = br.readLine().split(" ");
             arr[i][0] = Integer.parseInt(input[0]);	// 몸무게
             arr[i][1] = Integer.parseInt(input[1]);	// 키
