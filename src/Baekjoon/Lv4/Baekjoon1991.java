@@ -48,8 +48,9 @@ public class Baekjoon1991 {
         sb.append("\n");
 
         postorder(1);
-        System.out.println(sb.toString());
 
+        System.out.println(sb.toString());
+        br.close();
     }
 
     // 전위 순회 root > left > right
