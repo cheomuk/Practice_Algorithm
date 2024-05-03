@@ -87,6 +87,7 @@ public class Baekjoon16236 {
         pq.add(new Shark(x, y, 2, 0, 0));
 
         visited[y][x] = 0;
+
         int count = 0;
         int lastHuntingCount = 0;
 
@@ -97,7 +98,7 @@ public class Baekjoon16236 {
                 int xn = dx[i] + node.x;
                 int yn = dy[i] + node.y;
 
-                if (xn >= 0 && yn >= 0 && xn < N && yn < N && node.size <= graph[yn][xn]) {
+                if (xn >= 0 && yn >= 0 && xn < N && yn < N && graph[yn][xn] <= node.size) {
                     if (node.size == node.huntingCount) {
                         node.size++;
                         node.huntingCount = 0;
@@ -106,16 +107,15 @@ public class Baekjoon16236 {
                     if (graph[yn][xn] != 0 && graph[yn][xn] < node.size) {
                         pq.add(new Shark(xn, yn, node.size, 0, node.huntingCount + 1));
                         visited[yn][xn] = count + 1;
+
                         lastHuntingCount = visited[yn][xn];
+
                         continue;
                     }
 
                     if (graph[yn][xn] < node.size) {
-                        if (visited[yn][xn] == -1) {
-                            visited[yn][xn] = count + 1;
-                        }
-
                         pq.add(new Shark(xn, yn, node.size, node.range + 1, node.huntingCount));
+                        visited[yn][xn] = count + 1;
                     }
                 }
             }
