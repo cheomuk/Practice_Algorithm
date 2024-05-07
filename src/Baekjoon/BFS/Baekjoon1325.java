@@ -17,7 +17,7 @@ public class Baekjoon1325 {
 
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
-        ans = new int[n+1];
+        ans = new int[n + 1];
 
         list = new ArrayList<>();
 
@@ -34,7 +34,7 @@ public class Baekjoon1325 {
         }
 
         for (int i = 1; i <= n; i++) {
-            visit = new boolean[n+1];
+            visit = new boolean[n + 1];
             bfs(i);
         }
 
