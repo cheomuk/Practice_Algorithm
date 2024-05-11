@@ -1,4 +1,4 @@
-package DataStructure;
+package Baekjoon.DataStructure;
 
 import java.io.BufferedReader;
 import java.io.IOException;
