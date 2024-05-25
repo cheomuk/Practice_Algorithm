@@ -8,6 +8,7 @@ public class Baekjoon11404 {
 
     static int N, M;
     static int[][] dist;
+    static final int INF = 987654321;
 
     public static void main(String[] args) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -25,7 +26,7 @@ public class Baekjoon11404 {
                     continue;
                 }
 
-                dist[i][j] = 1000000;
+                dist[i][j] = INF;
             }
         }
 
@@ -43,11 +44,11 @@ public class Baekjoon11404 {
 
         for (int i = 1; i <= N; i++) {
             for (int j = 1; j <= N; j++) {
-                if (dist[i][j] == 1000000) {
-                    sb.append(0).append(" ");
-                } else {
-                    sb.append(dist[i][j]).append(" ");
+                if (dist[i][j] == INF) {
+                    dist[i][j] = 0;
                 }
+
+                sb.append(dist[i][j]).append(" ");
             }
 
             sb.append("\n");
@@ -62,7 +63,9 @@ public class Baekjoon11404 {
         for (int k = 1; k <= N; k++) {
             for (int i = 1; i <= N; i++) {
                 for (int j = 1; j <= N; j++) {
-                    dist[i][j] = Math.min(dist[i][j], dist[i][k] + dist[k][j]);
+                    if (dist[i][j] > dist[i][k] + dist[k][j]) {
+                        dist[i][j] = dist[i][k] + dist[k][j];
+                    }
                 }
             }
         }
