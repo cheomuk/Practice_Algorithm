@@ -9,7 +9,6 @@ public class Baekjoon11404 {
     static int N, M;
     static int[][] dist;
     static final int INF = 987654321;
-
     public static void main(String[] args) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
